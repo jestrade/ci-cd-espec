@@ -1,16 +1,27 @@
 version: '2.1'
 orbs:
-  node: circleci/node@5.0.2
+  aws-s3: circleci/aws-s3@3.0
 jobs:
   test:
     docker:
-      - image: 'cimg/base:stable'
+      - image: 'circleci/node@5.0.2'
     steps:
       - checkout
-      - node/install:
-          node-version: '16.13'
       - run: npm install && npm test
+    build_deploy:
+      docker:
+        - image: 'circleci/node@5.0.2'
+      steps:
+        - checkout
+        - run: npm install && npm run build
+        - aws-s3/sync:
+            arguments: |
+              --acl public-read \
+              --cache-control "max-age=86400"
+            from: build
+            to: 's3://ci-cd-espec'
 workflows:
-  test_and_build:
+  test_build_deploy:
     jobs:
       - test
+      - build_deploy
