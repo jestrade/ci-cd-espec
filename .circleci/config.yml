@@ -8,18 +8,18 @@ jobs:
     steps:
       - checkout
       - run: npm install && npm test
-    deploy:
-      docker:
-        - image: 'circleci/node@5.0.2'
-      steps:
-        - checkout
-        - run: npm install && npm run build
-        - aws-s3/sync:
-            arguments: |
-              --acl public-read \
-              --cache-control "max-age=86400"
-            from: build
-            to: 's3://ci-cd-espec'
+  deploy:
+    docker:
+      - image: 'circleci/node@5.0.2'
+    steps:
+      - checkout
+      - run: npm install && npm run build
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          from: build
+          to: 's3://ci-cd-espec'
 workflows:
   test_build_deploy:
     jobs:
