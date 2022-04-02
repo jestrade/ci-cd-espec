@@ -27,4 +27,9 @@ workflows:
       - deploy:
           requires:
             - test
+          filters:
+            branches:
+              only:
+                - production
+
           
