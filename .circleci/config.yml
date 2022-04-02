@@ -8,7 +8,7 @@ jobs:
     steps:
       - checkout
       - run: npm install && npm test
-    build_deploy:
+    deploy:
       docker:
         - image: 'circleci/node@5.0.2'
       steps:
@@ -24,4 +24,4 @@ workflows:
   test_build_deploy:
     jobs:
       - test
-      - build_deploy
+      - deploy
