@@ -4,13 +4,13 @@ orbs:
 jobs:
   test:
     docker:
-      - image: 'circleci/node@5.0.2'
+      - image: 'cimg/node:17.8.0-browsers'
     steps:
       - checkout
       - run: npm install && npm test
   deploy:
     docker:
-      - image: 'circleci/node@5.0.2'
+      - image: 'cimg/node:17.8.0-browsers'
     steps:
       - checkout
       - run: npm install && npm run build
